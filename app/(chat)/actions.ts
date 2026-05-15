@@ -15,6 +15,7 @@ import {
 } from "@/lib/db/queries";
 import { getTextFromMessage } from "@/lib/utils";
 
+import { groq } from "@ai-sdk/groq";
 export async function saveChatModelAsCookie(model: string) {
   const cookieStore = await cookies();
   cookieStore.set("chat-model", model);
@@ -26,7 +27,7 @@ export async function generateTitleFromUserMessage({
   message: UIMessage;
 }) {
   const { text } = await generateText({
-    model: getTitleModel(),
+    model:groq("openai/gpt-oss-120b"),
     system: titlePrompt,
     prompt: getTextFromMessage(message),
     providerOptions: {
